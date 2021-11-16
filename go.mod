@@ -1,4 +1,4 @@
-module github.com/diogo-correia-tec/postgres-test-container
+module github.com/diogo-correia-tec/test-container
 
 go 1.16
 
