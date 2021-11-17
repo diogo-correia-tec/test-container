@@ -70,6 +70,10 @@ func RunMigrations(conn *sqlx.DB, migrationsRootPath string) error {
 		log.Fatal(err)
 	}
 
+	if len(files) == 0 {
+		log.Fatalf("No migrations found in path: %s", migrationsRootPath)
+	}
+
 	for _, file := range files {
 		if !strings.Contains(file.Name(), "up.sql") {
 			continue
