@@ -23,7 +23,7 @@ type ContainerParams struct {
 }
 
 func StartPostgresTestContainer(params ContainerParams) (conn *sqlx.DB) {
-	log.Println("Starting Postgres container...")
+	log.Println("starting postgres container...")
 	postgresPort := nat.Port(params.Port + "/tcp")
 	postgres, err := tc.GenericContainer(context.Background(),
 		tc.GenericContainerRequest{
@@ -77,8 +77,6 @@ func RunMigrations(conn *sqlx.DB, migrationsRootPath string) error {
 	}
 
 	SortFilesByName(files)
-
-	fmt.Println(files)
 
 	for _, file := range files {
 		if !strings.Contains(file.Name(), "up.sql") {
