@@ -3,9 +3,11 @@ package database
 import (
 	"context"
 	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"log"
 	"os"
+	"sort"
 	"strings"
 
 	"github.com/docker/go-connections/nat"
@@ -74,6 +76,10 @@ func RunMigrations(conn *sqlx.DB, migrationsRootPath string) error {
 		log.Fatalf("No migrations found in path: %s", migrationsRootPath)
 	}
 
+	SortFilesByName(files)
+
+	fmt.Println(files)
+
 	for _, file := range files {
 		if !strings.Contains(file.Name(), "up.sql") {
 			continue
@@ -93,4 +99,10 @@ func RunMigrations(conn *sqlx.DB, migrationsRootPath string) error {
 	}
 
 	return nil
+}
+
+func SortFilesByName(files []fs.FileInfo) {
+	sort.Slice(files, func(i, j int) bool {
+		return files[i].Name() < files[j].Name()
+	})
 }
